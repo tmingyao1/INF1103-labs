@@ -1,0 +1,6 @@
+ORDERS
+1001,charger,239
+1002,phone,188
+HISTORY
+239
+188
