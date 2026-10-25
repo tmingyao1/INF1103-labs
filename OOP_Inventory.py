@@ -20,6 +20,32 @@ class Product:
     def display_information(self):
         print(f"ID: {self.__id}, Name: {self.__name}, Price: ${self.__price:.2f}, Quantity: {self.__quantity}")
 
+class Inventory:
+    def __init__(self):
+        self.__products = []
+
+    def add_product(self, product):
+        self.__products.append(product)
+
+    def search_product(self, product_id):
+        for p in self.__products:
+            if p.get_id() == product_id:
+                return p
+        return None
+
+    def display_all(self):
+        if not self.__products:
+            print("\nInventory is empty.\n")
+            return
+
+        print("\nCurrent Inventory:")
+        for p in self.__products:
+            p.display_information()
+        print()
+
+    def get_all_products(self):
+        return self.__products
+
 INVENTORY_FILE = "inventory.json"
 
 def load_inventory():
@@ -182,5 +208,7 @@ def main():
             print("\nInvalid choice. Please select 1-6.\n")
 
 if __name__ == "__main__":
-    p = Product("P001", "Wireless Mouse", 25.50, 2)
-    p.display_information()
+    inv = Inventory()
+    inv.add_product(Product("P001", "Wireless Mouse", 25.50, 2))
+    inv.add_product(Product("P002", "Keyboard", 45.00, 1))
+    inv.display_all()
