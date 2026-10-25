@@ -17,6 +17,14 @@ class Product:
     def update_stock(self, new_quantity):
         self.__quantity = new_quantity
 
+    def to_dict(self):
+        return {
+            "id": self.__id,
+            "name": self.__name,
+            "price": self.__price,
+            "quantity": self.__quantity
+        }
+
     def display_information(self):
         print(f"ID: {self.__id}, Name: {self.__name}, Price: ${self.__price:.2f}, Quantity: {self.__quantity}")
 
@@ -55,14 +63,16 @@ def load_inventory():
 
     with open(INVENTORY_FILE, "r") as f:
         try:
-            return json.load(f)
+            data = json.load(f)
         except json.JSONDecodeError:
             return []
 
-def save_inventory(inventory):
+    return [Product(d.get("id"), d.get("name"), d.get("price"), d.get("quantity")) for d in data]
 
+def save_inventory(inventory):
+    data = [p.to_dict() for p in inventory.get_all_products()]
     with open(INVENTORY_FILE, "w") as f:
-        json.dump(inventory, f, indent=4)
+        json.dump(data, f, indent=4)
     print('Saving inventory before exit...')
     print("Inventory saved to inventory.json")
 
@@ -168,9 +178,14 @@ def print_menu():
 
 def main():
     inventory = Inventory()
-    inventory.add_product(Product("P001", "Wireless Mouse", 25.50, 2))
-    inventory.add_product(Product("P002", "Keyboard", 45.00, 1))
-    inventory.add_product(Product("P003", "USB Cable", 9.99, 3))
+    loaded_products = load_inventory()
+    if loaded_products:
+        for p in loaded_products:
+            inventory.add_product(p)
+    else:
+        inventory.add_product(Product("P001", "Wireless Mouse", 25.50, 2))
+        inventory.add_product(Product("P002", "Keyboard", 45.00, 1))
+        inventory.add_product(Product("P003", "USB Cable", 9.99, 3))
 
     while True:
         print_menu()
