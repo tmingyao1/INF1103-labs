@@ -69,10 +69,10 @@ def save_inventory(inventory):
 def get_next_product_id(inventory):
     
     highest = 0
-    width = 3  # digits after the "P", matches P001 style
+    width = 3  
 
-    for p in inventory:
-        pid = p.get("id", "")
+    for p in inventory.get_all_products():
+        pid = p.get_id()
         if pid.startswith("P") and pid[1:].isdigit():
             highest = max(highest, int(pid[1:]))
             width = len(pid[1:])
@@ -110,59 +110,51 @@ def add_product(inventory):
             break
         print("Error: please enter a valid non-negative integer.")
 
-    product = {"id": product_id, "name": name, "price": price, "quantity": quantity}
-    inventory.append(product)
-    print(f"\nProduct added: {product}\n")
+    product = Product(product_id, name, price, quantity)
+    inventory.add_product(product)
+    print(f"\nProduct added: {product_id}, {name}, ${price:.2f}, {quantity}\n")
 
 
 def update_stock(inventory):
     
     product_id = input("Enter product ID to update: ").strip()
-
-    for product in inventory:
-        if product.get("id") == product_id:
-            while True:
-                quantity_input = input("Enter new quantity: ").strip()
-                if quantity_input.isdigit():
-                    product["quantity"] = int(quantity_input)
-                    print(f"\nUpdated: {product}\n")
-                    return
-                print("Error: please enter a valid non-negative integer.")
-
-    print("\nProduct not found.\n")
-
+    product = inventory.search_product(product_id)
+    if product:
+        while True:
+            quantity_input = input("Enter new quantity: ").strip()
+            if quantity_input.isdigit():
+                product.update_stock(int(quantity_input))
+                print(f"\nUpdated product {product_id} to new quantity: {quantity_input}\n")
+                return
+            print("Error: please enter a valid non-negative integer.")
+    else:
+        print("\nProduct not found.\n")
 
 def search_product(inventory):
-    
     query = input("Enter product ID or name to search: ").strip().lower()
 
     results = [
-        p for p in inventory
-        if query == p.get("id", "").lower() or query in p.get("name", "").lower()
+        p for p in inventory.get_all_products()
+        if query == p.get_id().lower() or query in p.get_name().lower()
     ]
 
     if results:
         print("\nSearch Results:")
         for p in results:
-            price = p.get("price", 0.0)
-            print(f"ID: {p.get('id')}, Name: {p.get('name')}, "
-                  f"Price: ${price:.2f}, Quantity: {p.get('quantity', 0)}")
+            p.display_information()
         print()
     else:
         print("\nNo matching product found.\n")
 
 
 def display_all(inventory):
-    
-    if not inventory:
+    products = inventory.get_all_products()
+    if not products:
         print("\nInventory is empty.\n")
         return
-
     print("\nCurrent Inventory:")
-    for p in inventory:
-        price = p.get("price", 0.0)
-        print(f"ID: {p.get('id')}, Name: {p.get('name')}, "
-              f"Price: ${price:.2f}, Quantity: {p.get('quantity', 0)}")
+    for p in products:
+        p.display_information()
     print()
 
 def print_menu():
@@ -175,15 +167,10 @@ def print_menu():
     print("6. Exit")
 
 def main():
-    
-    inventory = load_inventory()
-
-    if not inventory:
-        inventory = [
-            {"id": "P001", "name": "Wireless Mouse", "price": 25.50, "quantity": 2},
-            {"id": "P002", "name": "Keyboard", "price": 45.00, "quantity": 1},
-            {"id": "P003", "name": "USB Cable", "price": 9.99, "quantity": 3},
-        ]
+    inventory = Inventory()
+    inventory.add_product(Product("P001", "Wireless Mouse", 25.50, 2))
+    inventory.add_product(Product("P002", "Keyboard", 45.00, 1))
+    inventory.add_product(Product("P003", "USB Cable", 9.99, 3))
 
     while True:
         print_menu()
@@ -208,7 +195,4 @@ def main():
             print("\nInvalid choice. Please select 1-6.\n")
 
 if __name__ == "__main__":
-    inv = Inventory()
-    inv.add_product(Product("P001", "Wireless Mouse", 25.50, 2))
-    inv.add_product(Product("P002", "Keyboard", 45.00, 1))
-    inv.display_all()
+    main()
