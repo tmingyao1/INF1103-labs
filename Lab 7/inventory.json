@@ -3,7 +3,7 @@
         "id": "P001",
         "name": "Wireless Mouse",
         "price": 25.5,
-        "quantity": 2,
+        "stock": 2,
         "type": "physical",
         "weight": 0.1
     },
@@ -11,7 +11,7 @@
         "id": "P002",
         "name": "Keyboard",
         "price": 45.0,
-        "quantity": 1,
+        "stock": 1,
         "type": "physical",
         "weight": 0.8
     },
@@ -19,24 +19,16 @@
         "id": "P003",
         "name": "Antivirus Software",
         "price": 29.99,
-        "quantity": 3,
+        "stock": 3,
         "type": "digital",
         "download_size": 850
     },
     {
         "id": "P004",
         "name": "Charger",
-        "price": 30.0,
-        "quantity": 5,
+        "price": 28.0,
+        "stock": 3,
         "type": "physical",
-        "weight": 0.8
-    },
-    {
-        "id": "P005",
-        "name": "Thumb drive",
-        "price": 15.0,
-        "quantity": 3,
-        "type": "physical",
-        "weight": 0.15
+        "weight": 0.6
     }
 ]
