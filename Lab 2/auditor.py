@@ -1,35 +1,42 @@
-def main():
-    total_inventory = 0
-    failed_entries = 0
+# Smart Inventory Auditor
 
-    while True:
-        user_input = input("Enter the stock quantity (or type 'quit' to finish): ").strip()
-        if user_input.lower() == 'quit':
-            break
-        is_number = user_input.lstrip('-').isdigit() and user_input not in ("", "-")
+inventory = 0
+failed_entries = 0
 
-        if not is_number:
-          print(f"Error: '{user_input}' is not a valid number. Entry rejected.")
-          failed_entries += 1
-          continue
+while True:
+    stock = input("Enter stock quantity (or type 'quit' to finish): ")
 
-        quantity = int(user_input)
+    # Stop the program if user types quit
+    if stock.lower() == "quit":
+        break
 
-        if quantity < 0:
-          print(f"Error: Negative quantity ({quantity}) is not allowed. Entry rejected.")
-          failed_entries += 1
-          continue
+    # Check if input is a number
+    if not stock.isdigit():
+        print("Error: Please enter a valid integer.")
+        failed_entries += 1
+        continue
 
-        total_inventory += quantity
-        print(f"Accepted. Current total inventory: {total_inventory}")
+    # Convert the input from string to integer
+    stock = int(stock)
 
-        if total_inventory > 500:
-            print(f"ALERT: Overstock! Total inventory ({total_inventory}) exceeds 500 units.")
-            break
+    # Reject negative numbers
+    if stock < 0:
+        print("Error: Negative numbers are not allowed.")
+        failed_entries += 1
+        continue
 
-    print('\n--- Audit Report ---')
-    print(f"Total units processed: {total_inventory}")
-    print(f"Number of failed/rejected entries: {failed_entries}")
+    # Add valid stock to inventory
+    inventory += stock
 
-if __name__ == "__main__":
-    main()
+    print("Stock accepted.")
+    print("Current inventory:", inventory)
+
+    # Check if inventory exceeds 500
+    if inventory > 500:
+        print("ALERT: Overstock! Inventory exceeds 500 units.")
+        break
+
+# Final report
+print("\n--- Final Report ---")
+print("Total Units Processed:", inventory)
+print("Number of Failed/Rejected Entries:", failed_entries)

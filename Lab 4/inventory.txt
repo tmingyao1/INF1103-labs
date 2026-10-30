@@ -1,6 +1,8 @@
 ORDERS
 1001,charger,239
 1002,phone,188
+1003,mouse,128
 HISTORY
 239
 188
+128
