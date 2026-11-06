@@ -1,0 +1,41 @@
+[
+    {
+        "id": "P001",
+        "name": "Wireless Mouse",
+        "price": 25.5,
+        "stock": 2,
+        "supplier": {
+            "supplier_id": "S001",
+            "name": "TechWorld Ltd",
+            "contact_email": "sales@techworld.com"
+        },
+        "type": "physical",
+        "weight": 0.1
+    },
+    {
+        "id": "P002",
+        "name": "Keyboard",
+        "price": 45.0,
+        "stock": 1,
+        "supplier": {
+            "supplier_id": "S001",
+            "name": "TechWorld Ltd",
+            "contact_email": "sales@techworld.com"
+        },
+        "type": "physical",
+        "weight": 0.8
+    },
+    {
+        "id": "P003",
+        "name": "Antivirus Software",
+        "price": 29.99,
+        "stock": 3,
+        "supplier": {
+            "supplier_id": "S002",
+            "name": "SoftHouse",
+            "contact_email": "contact@softhouse.com"
+        },
+        "type": "digital",
+        "download_size": 850
+    }
+]
