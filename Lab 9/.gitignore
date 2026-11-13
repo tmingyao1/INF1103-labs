@@ -1,0 +1,10 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Word temporary files
+~$*
+*.tmp
+
+# Screenshot documents (submitted separately)
+*Screenshot*.docx
